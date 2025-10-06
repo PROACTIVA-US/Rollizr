@@ -7,6 +7,8 @@
     "start": "node src/index.js",
     "demo:sourcing": "node examples/demo-sourcing.js",
     "demo:outreach": "node examples/demo-outreach.js",
+    "demo:ingestion": "node examples/demo-ingestion.js",
+    "db:init": "node scripts/init-db.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -24,7 +26,12 @@
   "type": "commonjs",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.65.0",
-    "dotenv": "^17.2.3"
+    "axios": "^1.12.2",
+    "cheerio": "^1.1.2",
+    "dotenv": "^17.2.3",
+    "node-fetch": "^2.7.0",
+    "pg": "^8.16.3",
+    "puppeteer": "^24.23.0"
   },
   "engines": {
     "node": ">=18.0.0"
