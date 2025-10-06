@@ -1,0 +1,32 @@
+{
+  "name": "rollizr",
+  "version": "1.0.0",
+  "description": "AI-native M&A platform for fragmented industry rollups, powered by Claude agents",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "demo:sourcing": "node examples/demo-sourcing.js",
+    "demo:outreach": "node examples/demo-outreach.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "m&a",
+    "rollup",
+    "claude",
+    "anthropic",
+    "hvac",
+    "private-equity"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.65.0",
+    "dotenv": "^17.2.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

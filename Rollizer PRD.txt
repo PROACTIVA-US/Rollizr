@@ -1,0 +1,324 @@
+Product Requirements Document (PRD)
+
+1) Product Overview
+
+Name: Fragmented Industry Rollup Platform (FIRP)
+
+Vision: Build an AI‑native platform that continuously scans, scores, and surfaces consolidation opportunities across fragmented service industries (e.g., HVAC, plumbing, landscaping, dental, MSPs). FIRP orchestrates agentic workflows to identify attractive targets, automate compliant outreach, assist with due diligence, and track post‑close value creation — from a single, secure, auditable console.
+
+Core Outcome: A deal origination and execution copilot that reduces weeks of manual research to minutes, increases hit‑rate on qualified owners, and standardizes diligence, valuation, and onboarding.
+
+⸻
+
+2) Primary Users & Personas
+	1.	Rollup Sponsor / Principal – Sets thesis, capital plans, and guardrails. Needs a prioritized pipeline and defensible scoring.
+	2.	Corp Dev / Analyst – Runs sourcing, screening, valuation models, comparables, and diligence checklists.
+	3.	BD/Outreach Manager – Manages multi‑channel outreach, sequences, and CRM hygiene.
+	4.	Ops Integrator – Post‑close playbooks (billing, ERP, HR/benefits, pricing, cross‑sell), KPI dashboards.
+	5.	Compliance Officer / Counsel – Monitors regulatory flags, privacy, communication rules, industry licensure.
+
+⸻
+
+3) Problem Statement
+
+Consolidators spend excessive time on fragmented data: websites, directories, state licensure lists, job boards, reviews, UCC filings, and social feeds. Outreach is noisy and generic. Diligence is inconsistent. Post‑close KPI capture is delayed.
+
+FIRP solves this by:
+	•	Unified data ingestion + enrichment
+	•	Agentic scoring + rationale (transparent, auditable)
+	•	Compliant, AI‑personalized outreach at scale
+	•	Standardized diligence and valuation models
+	•	Integration runbooks and post‑close KPI tracking
+
+⸻
+
+4) Goals & Non‑Goals
+
+Goals
+	•	10× faster target discovery; 3× higher owner response.
+	•	Repeatable theses per vertical with tunable scoring.
+	•	One‑click generation of IC memos and LOI drafts.
+	•	SOC2‑ready logging of data lineage and decisions.
+
+Non‑Goals (v1)
+	•	Automated legal representation or binding offers.
+	•	Running payroll/ERP directly (integrate instead).
+	•	Replacing human credit/underwriting decisions.
+
+⸻
+
+5) Key Use Cases / User Stories
+	1.	Vertical Setup (HVAC example): Define thesis constraints (geo, revenue $2–10M, residential mix >60%, >3 tech crews, 24/7 service). FIRP returns 500 candidates with scores and flags.
+	2.	Owner‑Ready Outreach: Generate tailored email + voicemail script citing specifics (e.g., number of reviews, recent permits, Google Ads spend trend), schedule via sequencer, route replies to CRM.
+	3.	Rapid Diligence: One‑click data room checklist; agents fetch missing items (COIs, W‑9, licensure proofs), summarize risks, produce IC memo.
+	4.	Valuation Side‑By‑Side: Compare implied valuation from comps vs. DCF vs. rule‑of‑thumb (e.g., SDE× multiple), annotate deltas and sensitivities.
+	5.	Post‑Close KPI Tracking: 100‑day plan with integrations (QuickBooks, ServiceTitan/Housecall Pro, Gusto) and live scorecards.
+
+⸻
+
+6) Functional Requirements
+
+6.1 Vertical Intelligence & Data Ingestion
+	•	Connectors (read‑only unless noted):
+	•	Web crawl (company sites), Google Maps/Places, Yelp, BBB, Angi, HomeAdvisor.
+	•	State licensure databases and Secretary of State business registries.
+	•	Job boards (Indeed, ZipRecruiter) for hiring velocity.
+	•	Permitting feeds where available (e.g., city open data, building permits).
+	•	Ad signals (public ad libraries), social (LinkedIn company), Wayback snapshots.
+	•	Financial/ops (owner‑provided): QuickBooks/Xero, Stripe, ServiceTitan, Housecall Pro.
+	•	Public filings: UCC liens, bankruptcies (where permitted).
+	•	Normalization & Entity Resolution: deterministic + fuzzy matches on name, domain, phone, address; dedupe; confidence scores.
+	•	Data Lineage: column‑level provenance per field; immutable audit log.
+
+6.2 Target Scoring & Rationale
+	•	Scoring Dimensions (per vertical):
+	•	Fragmentation & density (HHI proxy by zip/CBSA).
+	•	Unit economics (estimated SDE/EBITDA margins via benchmark models).
+	•	Demand stability (seasonality, permit trends, review velocity).
+	•	Operational maturity (tech stack, scheduling software, response SLAs).
+	•	Owner stage/intent (years in business, succession hints, hiring posts).
+	•	Risk flags (licensure gaps, outstanding liens, complaint ratios).
+	•	Model Types: hybrid rules + ML classifier + surrogate explanation (SHAP‑like) with natural‑language rationale.
+	•	What‑If Tuning: sliders for weightings; instant re‑rank with explanation diffs.
+
+6.3 Opportunity Workbench
+	•	Pipeline board (Uncontacted → Engaged → Diligence → LOI → Close → Integrating).
+	•	Side‑by‑side compare candidates; export IC memo, LOI draft, outreach pack.
+	•	“Fill‑the‑gaps” agent to request missing documents from owners via secure link.
+
+6.4 Outreach & CRM
+	•	Native sequences (email, voice drop, SMS, LinkedIn — provider plugins).
+	•	Personalization at Scale: per‑company snippets citing concrete facts.
+	•	Consent and compliance guardrails (TCPA, CAN‑SPAM, opt‑outs, DNC checks).
+	•	CRM sync: HubSpot, Pipedrive, Salesforce; two‑way activity logging.
+
+6.5 Diligence & Valuation
+	•	Templates for QoE, customer concentration, cohort churn, geo heatmaps.
+	•	Auto‑generated IC Memo: thesis fit, score rationale, risks, valuation comps.
+	•	Valuation engine: rules of thumb per vertical + public/private comps library.
+
+6.6 Post‑Close Integration & KPI
+	•	100‑day plan generator; tasks with owners and deadlines.
+	•	Integration checklists by system (accounting, CRM, phone, payroll, fleet).
+	•	KPI dashboards: revenue/tech/day, average ticket, conversion, churn, CSAT/NPS.
+
+6.7 Admin, Audit, and Security
+	•	RBAC with least‑privilege roles.
+	•	Full audit trail for data access and generated communications.
+	•	Secret management (Vault/Cloud KMS); PII minimization & encryption at rest/in‑transit.
+
+⸻
+
+7) Non‑Functional Requirements
+	•	Reliability: 99.9% for core dashboard; graceful degradation of connectors.
+	•	Scalability: 1M+ company entities; streaming ingestion with backpressure.
+	•	Latency: <3s for re‑ranking; <10s for on‑demand profile generation.
+	•	Compliance: SOC2‑ready controls; privacy compliance by jurisdiction; data processing agreements with providers where required.
+
+⸻
+
+8) System Architecture (High‑Level)
+	•	Ingestion Layer: Airbyte/Custom connectors → Kafka/NATS → Object store + Lakehouse (e.g., Parquet/Delta).
+	•	Processing: Spark/Beam jobs for transform & entity resolve; feature store.
+	•	Model Serving:
+	•	Classification/scoring models (Vertex AI/SageMaker/Modal or self‑hosted).
+	•	RAG over an industry knowledge graph (vector DB + relational DB join).
+	•	Agent Orchestrator:
+	•	MCP‑compatible agents (Research, Enrichment, Valuation, Outreach, Diligence, Compliance, Integration).
+	•	Workflow engine (Goose/Dagster/Dagger) for idempotent steps and retries.
+	•	APIs: GraphQL for query; REST for webhooks & outbound actions; event bus for automations.
+	•	Frontend: Next.js app with role‑aware views, real‑time sockets, optimistic UI.
+	•	Observability: OpenTelemetry traces; Prometheus/Grafana; cost metering per agent.
+
+⸻
+
+9) AI & Agentic Design
+
+9.1 Agent Roster (MCP‑style)
+	•	Scout Agent – Finds candidates by thesis; explains rationale; attaches sources.
+	•	Resolver Agent – Cleans/merges entities; confidence‑labels.
+	•	Profiler Agent – Builds rich profiles (tech stack, services, pricing clues).
+	•	Valuation Agent – Triangulates value (comps, rules, DCF), states assumptions.
+	•	Compliance Agent – Checks outreach & data rules; monitors licensure.
+	•	Outreach Agent – Writes and schedules sequences; adapts tone; logs consent.
+	•	Diligence Agent – Generates request lists; summarizes uploads; gap analyst.
+	•	Integrator Agent – 100‑day plan templating; pulls KPIs; owner comms.
+
+9.2 Reasoning & Safety
+	•	Multi‑agent critique loop (self‑check + cross‑check); adversarial QA on claims.
+	•	Guardrail policies for outreach and data usage; red‑team prompts to prevent overreach.
+
+9.3 Memory & RAG
+	•	Per‑vertical Thesis Memory (weights, do/don’t‑buy patterns, lessons learned).
+	•	Company Knowledge Cards with citations and derived features.
+	•	Vectorized doc store with retrieval scoring tuned for precision > recall.
+
+⸻
+
+10) Data Model (Simplified)
+
+Entities: Company, Location, Owner, License, Permit, Review, TechStack, Financials (owner‑provided), ContactAttempt, Communication, RiskFlag, Score, Deal, Task, Document, Source.
+
+Key Tables/Fields:
+	•	company(id, legal_name, dba, domain, phone, naics, vertical, revenue_estimate, employees_estimate, years_in_business, city, state, zipcode)
+	•	score(company_id, thesis_id, total, weights_json, rationale, updated_at)
+	•	risk_flag(company_id, type, severity, details, source_id)
+	•	contact(company_id, owner_name, email, phone, consent_status, last_contacted_at)
+	•	deal(company_id, stage, owner, ic_memo_url, loi_url, confidence, next_action_at)
+
+⸻
+
+11) Integrations (Phase‑by‑Phase)
+
+Phase 1 (MVP): Google Places, Yelp, state license CSV/HTML scrapers, HubSpot CRM, email (SendGrid), voice drops (Twilio), basic LinkedIn enrichment.
+
+Phase 2: ServiceTitan/Housecall Pro (HVAC), QuickBooks/Xero (with owner consent), Gusto, Secretary of State APIs, UCC search providers, BBB/Angi APIs.
+
+Phase 3: Ads libraries, building permit APIs, FOIA workflows, bank transaction providers (with explicit authorization), additional vertical CRMs (dental, MSP).
+
+⸻
+
+12) UX / UI Requirements
+	•	Sourcing Map & Table: Filters (geo, size, score, risk); heatmap by CBSA.
+	•	Candidate Drawer: Snapshot (why it scored; top signals; risk flags; citations).
+	•	Compare View: 2–4 companies; valuation deltas; sensitivity toggles.
+	•	Outreach Studio: sequence builder; preview with company‑specific facts; consent status; deliverability checks.
+	•	IC Memo Builder: editable sections; export to PDF/Notion/Google Doc.
+	•	KPI Cockpit (post‑close): stack‑integrated tiles; variance alerts.
+
+⸻
+
+13) HVAC Sample (Vertical Profile)
+	•	Signals: # of Google reviews & velocity, service hours, emergency fees, truck/crew count (from photos/jobs), permit volume (HVAC installs), licensure class, seasonality, service software footprint.
+	•	Thresholds (example): Revenue est. $3–12M; Residential ≥60%; Reviews ≥200; 24/7 available; Licenses in good standing; No severe BBB complaints.
+	•	Valuation Heuristics: SDE× (3.5–5.5× SMB), growth adj.; add‑backs catalogue.
+	•	Risks: Warranty liabilities, technician scarcity, vendor dependency, weather sensitivity.
+
+⸻
+
+14) Compliance & Legal (Guidance, not legal advice)
+	•	Consent management (double opt‑in for SMS where required).
+	•	Respect DNC lists; honor unsubscribe promptly; audit trail of consents.
+	•	Data minimization; use only permitted public data; contractually govern private data.
+	•	Regional privacy regimes (CCPA/CPRA, etc.); DSAR/erasure workflows.
+
+⸻
+
+15) Security Requirements
+	•	SSO (OIDC/SAML) + MFA; RBAC with field‑level controls.
+	•	Encryption: TLS 1.2+, AES‑256 at rest; scoped service accounts for connectors.
+	•	Secrets via Vault/KMS; rotation policies; tamper‑evident logs.
+
+⸻
+
+16) KPIs & Success Metrics
+	•	Sourcing: candidates/week, % enriched to ≥80% completeness.
+	•	Conversion: reply rate, meeting rate, LOIs issued, wins/LOI.
+	•	Cycle time: first‑touch → intro call; intro → IC; IC → LOI; LOI → close.
+	•	Model: precision@k of top‑scored candidates leading to meetings.
+	•	Post‑close: 100‑day completion %, EBITDA delta vs. plan.
+
+⸻
+
+17) Roadmap
+
+MVP (0–8 weeks)
+	•	Core ingestion (web + maps + Yelp + licenses), entity resolution, basic scoring.
+	•	Sourcing map/table; candidate drawer; export and simple IC memo.
+	•	Email sequences via SendGrid; HubSpot sync; audit log skeleton.
+
+v1 (8–16 weeks)
+	•	Agentic pipeline (Scout→Resolver→Profiler→Valuation→Outreach) with retries.
+	•	HVAC vertical pack; post‑close cockpit (manual CSV or QuickBooks lite).
+	•	Compliance guardrails v1; consent tracking; SMS + voice drop.
+
+v1.5 (16–24 weeks)
+	•	ServiceTitan/Housecall Pro, QuickBooks/Xero deep sync.
+	•	Risk engine & SHAP‑style rationales; what‑if tuner; compare view.
+
+v2 (24+ weeks)
+	•	More vertical packs (plumbing, landscaping, dental, MSP).
+	•	Advanced permits/ads/social signals; FOIA agent; document Q&A search.
+	•	Valuation sandbox + sensitivity; automated LOI generator (human‑in‑loop).
+
+⸻
+
+18) Build Plan & Tech Stack
+	•	Frontend: Next.js/React, Tailwind, tRPC/GraphQL, WebSockets.
+	•	Backend: Python FastAPI (or Node/Nest), Postgres + Elastic for search, object store for docs, Redis for queues.
+	•	Pipelines: Airbyte/Custom scrapers, dbt, Spark/Beam; NATS/Kafka events.
+	•	Agents: MCP servers; orchestrated via Goose or Dagster; Dagger for containerized steps; model router (LiteLLM) for cost and fallback.
+	•	Observability: OpenTelemetry; Grafana/Prometheus; ELK.
+	•	Infra: GCP (Cloud Run/GKE), IaC via Terraform; CI/CD GitHub Actions; WIF.
+
+⸻
+
+19) Data Governance & Ethics
+	•	Document provenance and confidence for every field.
+	•	Explainable scores; user‑visible rationales; appeal & override workflow.
+	•	Owner‑friendly outreach defaults; respect quiet hours; transparent intent.
+
+⸻
+
+20) Risks & Mitigations
+	•	Data Fragility: Sites change; use headless browsers + schema‑aware scrapers, contract APIs where possible; monitoring + auto‑fix.
+	•	Deliverability: Warmed domains, DMARC/DKIM/SPF checks, send‑rate controls.
+	•	Model Drift: Feedback loops; regular evals on closed/won vs. false positives.
+	•	Compliance Exposure: Centralized policy engine; pre‑send checks; counsel review gates.
+
+⸻
+
+21) Acceptance Criteria (MVP)
+	•	Import ≥100k companies across 2 states for one vertical (HVAC) with ≥75% entity resolution accuracy.
+	•	Deliver top‑100 list with rationales in <3s re‑rank time.
+	•	Send a 3‑step email sequence to ≥25 selected owners with logged consent.
+	•	Generate an editable IC memo for any candidate from dashboard.
+
+⸻
+
+22) Example Agent Prompts (Skeleton)
+
+Scout Agent (system): “You find companies that match a thesis. Output JSON with: company_id, score (0–100), top_signals[], risks[], citations[]. Use only sources permitted by policy. Provide short natural‑language rationale.”
+
+Valuation Agent (system): “Triangulate value via comps, rules, and DCF. State assumptions, sensitivities, and gaps. Output a 1‑page memo + structured JSON.”
+
+Outreach Agent (system): “Draft concise, owner‑respectful notes grounded in cited facts. Avoid exaggeration. Include opt‑out and preferred contact window.”
+
+⸻
+
+23) Sample Outreach Templates (Owner‑Friendly)
+	•	Email #1:
+Subject: Quick question about {{CompanyName}}
+Hi {{OwnerFirst}},
+I’m researching {{City}} HVAC firms and noticed {{specific fact}}. We’re building a local partnership to invest in great operators while keeping teams and brand intact. If open, could we schedule a 15‑minute intro next week?
+— {{YourName}}
+(Opt‑out anytime by replying “stop.”)
+	•	Voicemail Script: 20–30 seconds citing one concrete fact and a clear call‑back.
+
+⸻
+
+24) Glossary
+	•	IC Memo: Investment Committee memo summarizing thesis, risks, valuation.
+	•	SDE: Seller’s Discretionary Earnings.
+	•	HHI: Herfindahl‑Hirschman Index (market concentration proxy).
+
+⸻
+
+25) Open Questions (to iterate later)
+	•	Which states first for HVAC pilot?
+	•	Preferred CRM for phase 1?
+	•	Depth of automated LOI vs. human‑authored template?
+
+⸻
+
+26) Appendix — HVAC Signal Catalog (Starter)
+	•	Reviews (count, rating, velocity, recency)
+	•	Website tech stack (forms, booking, chat, ServiceTitan widget)
+	•	Licenses (status, expiration, class)
+	•	Permits (qty, types, seasonality)
+	•	Hiring (open tech roles)
+	•	Coverage (service areas, 24/7)
+	•	Social presence (post frequency)
+	•	Pricing clues (promo financing, maintenance plans)
+	•	Photos (fleet size proxies)
+	•	Complaints (BBB/AG)
